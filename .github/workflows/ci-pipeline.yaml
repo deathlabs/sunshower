@@ -3,23 +3,37 @@ name: Continuous Integration
 on:
   push
 jobs:
-  test:
-    name: test
+  secrets:
+    name: secrets
     runs-on: ubuntu-latest
     steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
+      - name: Run Trufflehog
+        id: trufflehog
+        uses: trufflesecurity/trufflehog@main
+        continue-on-error: false
+        with:
+          head: HEAD
+          extra_args: --debug
+  qa:
+    name: qa
+    needs: secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v4
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
-      - name: Install pip
+      - name: Install Python dependencies
         run: python -m pip install black
-      - name: Clone the repository
-        uses: actions/checkout@v4
-      - name: Check for QA
+      - name: Run Python black
         run: black --diff --color --check .
-  pre-build-scan:
-    name: pre-build-scan
-    needs: test
+  sast:
+    name: sast
+    needs: qa
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
