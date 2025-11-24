@@ -28,9 +28,9 @@ pip install -r requirements
 ## Usage
 The instructions below provide an example of using `sunshower` (they assume you are using VS Code in a Linux-based environment and have already completed the [Installation](#installation) instructions above).
 
-**Step 1.** Add `ipykernel`, `langchain`, and `matplotlib` to your Python virtual environment.
+**Step 1.** Add `ipykernel`, `ipywidgets`, `langchain`, and `matplotlib` to your Python virtual environment.
 ```bash
-pip install ipykernel langchain matplotlib
+pip install ipykernel ipywidgets langchain matplotlib
 ```
 
 **Step 2.** Create a file called `.env` and added your Large Language Model (LLM) provider API keys to it. 
