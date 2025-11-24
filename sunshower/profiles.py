@@ -31,25 +31,21 @@ class AgentProfile:
         model = Model(
             provider=data["model"].get("provider"),
             name=data["model"].get("name"),
-            system_prompt=data["model"].get("system_prompt")
+            system_prompt=data["model"].get("system_prompt"),
         )
 
         # Check agent harness metadata.
         if "harness" not in data:
             raise ValueError('"harness" key not found')
-        harness = Harness(
-            tool_names=data["harness"].get("tools")
-        )
+        harness = Harness(tool_names=data["harness"].get("tools"))
 
-        return cls(
-            name,
-            model,
-            harness
-        )
+        return cls(name, model, harness)
+
 
 class TeamProfile(BaseModel):
     name: str
     agent_profiles: List[AgentProfile]
+
 
 def get_team_profile(experiment_plan: Dict) -> TeamProfile:
     agent_profiles = []
@@ -57,8 +53,7 @@ def get_team_profile(experiment_plan: Dict) -> TeamProfile:
         try:
             agent_profiles.append(AgentProfile.from_dict(agent_profile))
         except ValueError as error:
-            raise ValueError(f"{error} in agent profile #{experiment_plan.index(agent_profile) + 1}") from None
-    return TeamProfile(
-        name=experiment_plan["name"],
-        agent_profiles=agent_profiles
-    )
+            raise ValueError(
+                f"{error} in agent profile #{experiment_plan.index(agent_profile) + 1}"
+            ) from None
+    return TeamProfile(name=experiment_plan["name"], agent_profiles=agent_profiles)

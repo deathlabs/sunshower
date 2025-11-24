@@ -5,7 +5,10 @@ from typing import Dict
 
 # https://discuss.ray.io/t/how-to-set-ray-dedup-logs-0/10465/11
 from os import environ
-environ["RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO"] = "0" # Do not override "accelerator visible" devices.
+
+environ["RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO"] = (
+    "0"  # Do not override "accelerator visible" devices.
+)
 
 # Third party imports.
 from langchain.agents import create_agent
@@ -36,22 +39,20 @@ def build_team(team_profile):
     graph.add_edge(agents[-1], END)
     return graph.compile()
 
+
 @remote
 def evaluate(team_profile: TeamProfile, task: str):
     start = perf_counter()
     team = build_team(team_profile)
-    output = team.invoke({
-        "messages": [
-            {"role": "user", "content": task}
-        ]
-    })
+    output = team.invoke({"messages": [{"role": "user", "content": task}]})
     end = perf_counter()
     time_taken = f"{end - start:.6f}"
-    return { 
+    return {
         "name": team_profile.name,
         "messages": output["messages"],
-        "time_taken": time_taken
+        "time_taken": time_taken,
     }
+
 
 def start(file_name: str, task: str):
     """
@@ -60,16 +61,12 @@ def start(file_name: str, task: str):
     # Load agent configurations from a file.
     experiment_plans = get_experiment_plans(file_name)
 
-    # Init a Ray cluster. 
+    # Init a Ray cluster.
     # - Do not include a dashboard (metrics will therefore not be exported).
     # - Do not send agent logs back to the Ray driver (i.e., the process running Ray).
-    init(
-        include_dashboard=False,
-        logging_level=ERROR,
-        log_to_driver=False
-    )
+    init(include_dashboard=False, logging_level=ERROR, log_to_driver=False)
 
-    # Run each experiment in parallel on the Ray cluster. 
+    # Run each experiment in parallel on the Ray cluster.
     object_references = []
     for experiment_plan in experiment_plans:
         team_profile = get_team_profile(experiment_plan)
