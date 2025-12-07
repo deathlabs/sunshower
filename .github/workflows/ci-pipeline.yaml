@@ -4,7 +4,7 @@ on:
   push
 jobs:
   secrets:
-    name: secrets
+    name: Secrets
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repository
@@ -17,7 +17,7 @@ jobs:
           head: HEAD
           extra_args: --debug
   qa:
-    name: qa
+    name: Quality assurance
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repository
@@ -31,12 +31,12 @@ jobs:
       - name: Run Python black
         run: black --diff --color --check .
   sca:
-    name: sast
+    name: Software Composition Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Generate an SBOM
-        uses: anchore/sbom-action@v0.15.0
+        uses: anchore/sbom-action@v0
         with:
           image: .
           output-file: sbom.json
@@ -46,7 +46,7 @@ jobs:
           sbom: sbom.json
           fail-on-severity: high
   sast:
-    name: sast
+    name: Static Application Security Testing
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
