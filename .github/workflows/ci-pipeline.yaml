@@ -17,7 +17,7 @@ jobs:
           head: HEAD
           extra_args: --debug
   qa:
-    name: Quality assurance
+    name: Quality Assurance
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repository
