@@ -1,29 +1,49 @@
 ---
-- name: Team 1
-  agents:
-  - name: Alpha
-    model:
-      provider: openai
-      name: gpt-4.1
-      system_prompt: You are a helpful assistant.
-    harness:
-      tools:
-        - whois
-- name: Team 2
-  agents:
-  - name: Alpha
-    model:
-      provider: openai
-      name: gpt-4o
-      system_prompt: You are a helpful assistant.
-    harness:
-      tools:
-        - whois
-  - name: Bravo
-    model:
-      provider: openai
-      name: gpt-4.1
-      system_prompt: You are a Cyber Threat Intelligence analyst assigned to support a Cyber Security Service Provider (CSSP) within the Department of Defense.
-    harness:
-      tools:
-        - whois
+apiVersion: v1
+kind: ExperimentSet
+metadata:
+  name: Experiment Set 1
+  description: The purpose of this experiment is to determine what team is the best at achieving the task.
+spec:
+  task: Generate a report that summarized the top 3 trending topics in cyber-related news.
+  rounds: 2
+  judges:
+    - name: Judge 1
+      model:
+        provider: openai
+        name: gpt-4.1
+        systemPrompt: You are a helpful assistant.
+      harness:
+        tools:
+          - serper
+      metricsToEvaluate: 
+        accuracy: The final report must not contain factual errors about the cyber-related news topics, and all identified “top 3 trending topics” must come from credible, verifiable sources.
+        completeness: The answer must identify the three trending cyber topics, provide a clear explanation of each, and include a final synthesized summary that ties them together.
+        cost: The total cost for the agent's execution must not exceed $0.05 USD, calculated from total token usage for all LLM calls.
+        precision: Each trending topic must be described with details that are specific, relevant, and current—no vague or generalized commentary. All descriptions must strictly relate to cybersecurity.
+        preferences: Rate the tone on a 1-5 scale (1 = too formal, 5 = perfectly conversational) based on how well the final report matches the desired conversational style.
+        recall: The final answer must explicitly mention all three trending topics and ensure that none are omitted or replaced with unrelated material.
+        speed: The agent's total execution time must remain under 3.0 seconds.
+        trajectory: Penalize the team 1 point for every unnecessary tool call made during the workflow.
+      teamsToEvaluate: [ all ]
+  teams:
+    - name: Team 1
+      agents:
+        - name: Alpha
+          model:
+            provider: openai
+            name: gpt-4.1
+            systemPrompt: You are a helpful assistant.
+          harness:
+            tools:
+              - serper
+    - name: Team 2
+      agents:
+        - name: Bravo
+          model:
+            provider: openai
+            name: gpt-5
+            systemPrompt: You are a Cyber Threat Intelligence analyst assigned to support a Cyber Security Service Provider (CSSP) within the Department of Defense.
+          harness:
+            tools:
+              - serper
