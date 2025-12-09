@@ -1,4 +1,4 @@
-"""sunshower/experiments.py"""
+"""sunshower/schema.py"""
 
 # Standard library imports.
 from enum import Enum
@@ -70,7 +70,7 @@ class JudgeProfile(AgentProfile):
 
 class Spec(BaseModel):
     task: str
-    rounds: int
+    trials: int
     team_profiles: List[TeamProfile] = Field(alias="teams")
 
 

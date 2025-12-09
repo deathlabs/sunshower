@@ -12,7 +12,7 @@ environ["RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO"] = (
 
 # Third party imports.
 from langchain_core.load import dumps
-from ray import get, init, remote, shutdown
+from ray import get, init, is_initialized, remote, shutdown
 
 # Local imports.
 from sunshower.schema import TeamProfile
@@ -40,6 +40,9 @@ def start(file_name: str):
     # Get the experiment set.
     experiment_set = get_experiment_set(file_name)
 
+    if is_initialized:
+        shutdown()
+
     # Init a Ray cluster.
     # - Do not include a dashboard (metrics will therefore not be exported).
     # - Do not send agent logs back to the Ray driver (i.e., the process running Ray).
@@ -47,9 +50,13 @@ def start(file_name: str):
 
     # Run each experiment declared in parallel on the Ray cluster.
     object_references = []
-    for team_profile in experiment_set.spec.team_profiles:
-        object_reference = evaluate_team.remote(team_profile, experiment_set.spec.task)
-        object_references.append(object_reference)
+    trials = experiment_set.spec.trials
+    for trial in range(trials):
+        for team_profile in experiment_set.spec.team_profiles:
+            object_reference = evaluate_team.remote(
+                team_profile, experiment_set.spec.task
+            )
+            object_references.append(object_reference)
 
     # Get the output of each experiment.
     with open(file="results.ndjson", mode="w", encoding="UTF-8") as output_file:
