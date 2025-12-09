@@ -3,10 +3,10 @@ apiVersion: v1
 kind: ExperimentSet
 metadata:
   name: Experiment Set 1
-  description: The purpose of this experiment is to determine what team is the best at achieving the task.
+  description: The purpose of this experiment is to determine which team is the best at achieving the task.
 spec:
   task: Generate a report that summarized the top 3 trending topics in cyber-related news.
-  rounds: 2
+  trials: 3
   judges:
     - name: Judge 1
       model:
