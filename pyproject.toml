@@ -1,27 +1,11 @@
-[build-system]
-requires = ["uv_build >= 0.9.21, <0.10.0"]
-build-backend = "uv_build"
-
 [project]
 name = "pySunshower"
 version = "0.0.1"
 description = "pySunshower is a Python library for evaluating AI agents in a declarative way"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "langchain",
-    "langchain-community",
-    "langchain-openai",
-    "langgraph",
-    "python-dotenv",
-    "python-whois",
-    "ray",
-    "pyyaml"
-]
+
 authors = [
-  { name="Vic Fernandez III", email="victor@deathlabs.io" },
-]
-maintainers = [
   { name="Vic Fernandez III", email="victor@deathlabs.io" },
 ]
 license = "MIT"
@@ -34,3 +18,24 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/deathlabs/sunshower"
 Issues = "https://github.com/deathlabs/sunshower/issues"
+
+[build-system]
+requires = ["poetry-core>=2.1.1"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    { include = "sunshower" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^1.2.0"
+langchain-community = "^0.4.1"
+langchain-openai = "^1.1.6"
+langgraph = "^1.0.5"
+ray = "^2.53.0"
+pyyaml = "^6.0.3"
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.2.1"
