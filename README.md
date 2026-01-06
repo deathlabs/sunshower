@@ -1,5 +1,5 @@
-# `sunshower`
-A Python library for evaluating AI agents in a declarative way.
+# pySunshower
+`pySunshower` is a Python library for evaluating AI agents in a declarative way.
 
 ## Installation
 The instructions below explain how to install `sunshower`.
