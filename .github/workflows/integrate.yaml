@@ -44,7 +44,7 @@ jobs:
         uses: anchore/scan-action@v3
         with:
           sbom: sbom.json
-          fail-on-severity: high
+          severity-cutoff: high
   sast:
     name: Static Application Security Testing
     runs-on: ubuntu-latest
