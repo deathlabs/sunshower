@@ -57,8 +57,7 @@ def run_judge(spec: Spec):
         team_output = dedent(f"""
             ## Agent Output
             {results}
-        """
-        )
+        """)
         metrics.append(team_output)
         task = "\n\n".join([str(metric) for metric in metrics])
     return judge.invoke({"messages": [{"role": "user", "content": task}]})
