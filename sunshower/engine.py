@@ -47,20 +47,16 @@ def run_judge(spec: Spec):
         )
         metrics = []
         for metricToEvaluate in judge_profile.metricsToEvaluate:
-            metric = dedent(
-                f"""
+            metric = dedent(f"""
                 ## {metricToEvaluate.type} Requirements  
                 {metricToEvaluate.prompt}
-            """
-            )
-            metrics.append(metricToEvaluate)
+            """)
+            metrics.append(metric)
 
-        team_output = dedent(
-            f"""
+        team_output = dedent(f"""
             ## Agent Output
             {results}
-        """
-        )
+        """)
         metrics.append(team_output)
         task = "\n\n".join([str(metric) for metric in metrics])
     return judge.invoke({"messages": [{"role": "user", "content": task}]})
