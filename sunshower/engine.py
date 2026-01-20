@@ -50,9 +50,8 @@ def run_judge(spec: Spec):
             metric = dedent(f"""
                 ## {metricToEvaluate.type} Requirements  
                 {metricToEvaluate.prompt}
-            """
-            )
-            metrics.append(metricToEvaluate)
+            """)
+            metrics.append(metric)
 
         team_output = dedent(f"""
             ## Agent Output
