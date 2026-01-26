@@ -44,6 +44,7 @@ jobs:
       - name: Check for CVEs
         uses: anchore/scan-action@v3
         with:
+          format: cyclonedx-json
           sbom: sbom.json
           severity-cutoff: high
   sast:
