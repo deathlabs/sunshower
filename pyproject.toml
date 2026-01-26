@@ -1,6 +1,6 @@
 [project]
 name = "pySunshower"
-version = "0.0.1"
+version = "0.0.2"
 description = "pySunshower is a Python library for evaluating AI agents in a declarative way."
 readme = "README.md"
 requires-python = ">=3.12"
