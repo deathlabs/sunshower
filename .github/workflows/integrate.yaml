@@ -33,6 +33,9 @@ jobs:
   sca:
     name: Software Composition Analysis
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Generate an SBOM
