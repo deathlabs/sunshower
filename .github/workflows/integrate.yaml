@@ -38,7 +38,7 @@ jobs:
       - name: Generate an SBOM
         uses: anchore/sbom-action@v0
         with:
-          image: .
+          path: .
           output-file: sbom.json
       - name: Check for CVEs
         uses: anchore/scan-action@v3

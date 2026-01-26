@@ -1,0 +1,6 @@
+ignore:
+  - vulnerability: GHSA-7gcm-g887-7qv7
+    package:
+      name: protobuf
+    reason: "There is no patch for this vulnerability yet."
+    expires: 2026-02-01
