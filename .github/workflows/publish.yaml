@@ -1,21 +1,19 @@
 name: Publish
 on:
+  branches: [ 'release/v[0-9].[0-9].[0-9]' ]
   workflow_run:
     workflows: [ "Integrate" ]
-    types:
-      - completed
+    types: [ completed ]
 jobs:
   pypi:
     name: Publish to PyPI
-    if: ${{ github.event_name == 'release' && github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: pypi
       url: https://pypi.org/p/pySunshower
     permissions:
       id-token: write
-      actions: read
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Install Python
@@ -25,7 +23,6 @@ jobs:
       - name: Install Python dependencies
         run: pipx install poetry
       - name: Build the artifact
-        run: |
-          poetry build
+        run: poetry build
       - name: Publish the artifact
         uses: pypa/gh-action-pypi-publish@release/v1
