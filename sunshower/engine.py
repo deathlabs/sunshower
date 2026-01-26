@@ -59,7 +59,7 @@ def run_judge(spec: Spec):
             f"""
             ## Agent Output
             {results}
-        """
+            """
         )
         metrics.append(team_output)
         task = "\n\n".join([str(metric) for metric in metrics])
