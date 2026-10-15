@@ -1,5 +1,5 @@
 ---
-name: Integrate
+name: CI
 on:
   push:
     branches: [ "**" ]
